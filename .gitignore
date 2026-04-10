@@ -1,0 +1,28 @@
+# Virtual environment
+.venv/
+
+# IDE settings
+.vscode/
+.cursor/
+
+# Environment secrets
+config.json
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# Scratch / working files
+scratch/
