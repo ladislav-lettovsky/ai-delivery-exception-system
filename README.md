@@ -131,7 +131,7 @@ Evaluated across 11 curated test cases covering noise filtering, VIP escalation,
 
 ## Tech Stack
 
-- **Python 3.11+**
+- **Python 3.12+**
 - **LangGraph** — multi-agent workflow orchestration
 - **LangChain** — LLM integration and tool orchestration
 - **OpenAI GPT-4o / GPT-4o-mini** — generation and validation models
