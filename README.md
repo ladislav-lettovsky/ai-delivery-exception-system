@@ -48,6 +48,56 @@ Delivery Logs ──► Preprocessor ──► Orchestrator ──► Resolution
 - **PII isolation** — only the Communication Agent has access to customer PII, and only where needed for personalization
 - **Cost-effective model pairing** — `gpt-4o-mini` for generation, `gpt-4o` for validation/critic (~$0.005 per shipment)
 
+## Project Structure
+
+```
+ai-delivery-exception-system/
+├── src/delivery_exception_system/     # Production Python package (src layout)
+│   ├── config.py                      # Centralized settings from environment variables
+│   ├── models/
+│   │   ├── state.py                   # UnifiedAgentState, 5 PII-controlled View dataclasses
+│   │   └── schemas.py                 # Pydantic output schemas for all agents
+│   ├── data/
+│   │   ├── loader.py                  # CSV, SQLite, and PDF data loading
+│   │   └── vectorstore.py            # ChromaDB with persistence and PDF hash caching
+│   ├── tools/                         # LangChain @tool functions
+│   │   ├── delivery_logs.py           # Read delivery log CSV
+│   │   ├── customer_profile.py        # SQLite customer lookup with PII redaction
+│   │   ├── locker_availability.py     # Smart locker eligibility check
+│   │   ├── playbook_search.py         # ChromaDB vector search
+│   │   └── escalation_rules.py        # Deterministic rule engine (single source of truth)
+│   ├── guardrails/
+│   │   ├── injection.py               # 90+ keyword prompt injection detection
+│   │   └── noise.py                   # Routine status code filtering
+│   ├── preprocessing/
+│   │   └── preprocessor.py            # 6-step pipeline: dedup → consolidate → guardrails → context
+│   ├── agents/
+│   │   ├── orchestrator.py            # 9-step deterministic router
+│   │   ├── resolution.py              # Exception classification and resolution
+│   │   ├── communication.py           # Customer notification generation
+│   │   ├── critic.py                  # Resolution and communication validation
+│   │   └── finalize.py                # Final packaging with shared escalation logic
+│   ├── evaluation/
+│   │   ├── metrics.py                 # Task completion, escalation accuracy, tool call accuracy
+│   │   ├── coherence.py               # LLM-as-judge coherence scoring
+│   │   └── dashboard.py               # Aggregate metrics
+│   ├── reporting/
+│   │   ├── summary.py                 # Compact tabular output
+│   │   └── resolution.py              # Detailed box-formatted reports
+│   ├── langsmith_dashboard.py         # LangSmith cost and token dashboard
+│   ├── graph.py                       # LangGraph workflow construction
+│   └── runner.py                      # CLI entry point
+├── data/                              # Data files
+│   ├── customers.db                   # SQLite: 12 customers + smart lockers
+│   ├── delivery_logs.csv              # 13 delivery log rows, 10 shipments
+│   ├── ground_truth.csv               # Hand-labeled expected outcomes
+│   └── exception_resolution_playbook.pdf  # 10-page operational playbook (v3.1)
+├── tests/                             # 43 pytest tests
+├── pyproject.toml                     # Project metadata and dependencies
+├── .env.example                       # Environment variable template
+└── .github/workflows/ci.yml          # GitHub Actions CI
+```
+
 ## Data
 
 | Dataset | Format | Description |
@@ -79,34 +129,60 @@ Evaluated across 11 curated test cases covering noise filtering, VIP escalation,
 
 ## Tech Stack
 
-- **Python 3.14**
+- **Python 3.11+**
 - **LangGraph** — multi-agent workflow orchestration
 - **LangChain** — LLM integration and tool orchestration
 - **OpenAI GPT-4o / GPT-4o-mini** — generation and validation models
 - **LangSmith** — tracing and observability
 - **SQLite** — customer data store
-- **Chroma** — vector store for playbook retrieval (RAG)
+- **ChromaDB** — vector store for playbook retrieval (RAG) with persistence
+- **HuggingFace** — `BAAI/bge-small-en-v1.5` embedding model
 
 ## Setup
 
 ```bash
 # Clone the repository
-git clone https://github.com/ladislav-lettovsky/AI-Last-Mile-Delivery-Exception-Handling.git
-cd AI-Last-Mile-Delivery-Exception-Handling
+git clone https://github.com/ladislav-lettovsky/ai-delivery-exception-system.git
+cd ai-delivery-exception-system
 
-# Create virtual environment
-python3 -m venv .venv
-source .venv/bin/activate
+# Install dependencies (using uv)
+uv sync
 
-# Install dependencies
-pip install -r requirements.txt
+# Or with pip
+pip install -e ".[dev]"
 
-# Configure API keys
-cp config.json.example config.json
-# Edit config.json with your OpenAI and LangChain API keys
+# Configure environment
+cp .env.example .env
+# Edit .env with your API keys (OpenAI, HuggingFace, LangSmith)
+```
 
-# Run the notebook
-jupyter notebook "AI-powered Last Mile Delivery Exception Handling Automation.ipynb"
+## Usage
+
+```bash
+# Run the full evaluation pipeline
+python3 -m delivery_exception_system
+
+# Process a specific shipment
+python3 -m delivery_exception_system --shipment-id SHP-005
+
+# Verbose logging
+python3 -m delivery_exception_system --verbose
+
+# Save workflow diagram
+python3 -m delivery_exception_system --diagram
+
+# Include LangSmith cost dashboard
+python3 -m delivery_exception_system --langsmith-dashboard
+```
+
+## Testing
+
+```bash
+# Run all deterministic tests (no API keys required)
+uv run pytest tests/ -v --ignore=tests/test_graph.py
+
+# Run integration tests (requires API keys)
+uv run pytest tests/test_graph.py --run-integration
 ```
 
 ## Business Recommendations

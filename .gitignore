@@ -1,14 +1,6 @@
-# Virtual environment
-.venv/
-
-# IDE settings
-.vscode/
-.cursor/
-
-# Environment secrets
-config.json
+# Environment
 .env
-.env.*
+config.json
 
 # Python
 __pycache__/
@@ -17,12 +9,27 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+.eggs/
 
-# Jupyter
-.ipynb_checkpoints/
+# Virtual environments
+.venv/
+venv/
 
-# macOS
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Data artifacts
+.vectorstore/
+*.db-journal
+
+# OS
 .DS_Store
-
-# Scratch / working files
-scratch/
+Thumbs.db
