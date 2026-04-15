@@ -162,28 +162,28 @@ cp .env.example .env
 
 ```bash
 # Run the pipeline — writes JSON results to results/, prints compact summary
-python3 -m delivery_exception_system
+uv run python -m delivery_exception_system
 
 # Include the detailed human-readable report in terminal output
-python3 -m delivery_exception_system --report
+uv run python -m delivery_exception_system --report
 
 # Write JSON to a specific path
-python3 -m delivery_exception_system --json-output my_run.json
+uv run python -m delivery_exception_system --json-output my_run.json
 
 # Skip JSON output entirely (terminal only)
-python3 -m delivery_exception_system --no-json --report
+uv run python -m delivery_exception_system --no-json --report
 
 # Process a specific shipment
-python3 -m delivery_exception_system --shipment-id SHP-005
+uv run python -m delivery_exception_system --shipment-id SHP-005
 
 # Verbose logging (all loggers including httpx, LangChain, etc.)
-python3 -m delivery_exception_system --verbose
+uv run python -m delivery_exception_system --verbose
 
 # Save workflow diagram
-python3 -m delivery_exception_system --diagram
+uv run python -m delivery_exception_system --diagram
 
 # Include LangSmith cost dashboard
-python3 -m delivery_exception_system --langsmith-dashboard
+uv run python -m delivery_exception_system --langsmith-dashboard
 ```
 
 ### Output Streams
