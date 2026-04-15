@@ -19,7 +19,7 @@ This manual process leads to:
 
 ## Solution
 
-A **LangGraph-orchestrated multi-agent system** with five specialized agents, each with distinct responsibilities and guardrails:
+**LangGraph-orchestrated multi-agent system** with five specialized agents, each with distinct responsibilities and guardrails:
 
 | Agent | Role |
 |:---|:---|
