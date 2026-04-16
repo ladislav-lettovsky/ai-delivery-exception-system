@@ -150,9 +150,6 @@ cd ai-delivery-exception-system
 # Install dependencies (using uv)
 uv sync
 
-# Or with pip
-pip install -e ".[dev]"
-
 # Configure environment
 cp .env.example .env
 # Edit .env with your API keys (OpenAI, HuggingFace, LangSmith)
