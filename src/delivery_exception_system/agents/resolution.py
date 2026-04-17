@@ -2,6 +2,7 @@
 
 import json
 import logging
+from typing import cast
 
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
@@ -72,18 +73,21 @@ def resolution_agent_node(state: UnifiedAgentState) -> UnifiedAgentState:
         f"RELEVANT PLAYBOOK SECTIONS:\n{playbook_text}"
     )
 
-    gen_llm = ChatOpenAI(model=settings.gen_model, temperature=settings.gen_temperature)
+    gen_llm = ChatOpenAI(model_name=settings.gen_model, temperature=settings.gen_temperature)
     structured_llm = gen_llm.with_structured_output(ResolutionOutput)
     max_retries = max(1, settings.max_retries)
-    result = None
+    result: ResolutionOutput | None = None
 
     for attempt in range(max_retries):
         try:
-            result = structured_llm.invoke(
-                [
-                    SystemMessage(content=system_prompt),
-                    HumanMessage(content=user_content),
-                ]
+            result = cast(
+                ResolutionOutput,
+                structured_llm.invoke(
+                    [
+                        SystemMessage(content=system_prompt),
+                        HumanMessage(content=user_content),
+                    ]
+                ),
             )
             break
         except Exception as e:
@@ -107,6 +111,7 @@ def resolution_agent_node(state: UnifiedAgentState) -> UnifiedAgentState:
                     f"defaulting to RESCHEDULE with forced escalation"
                 )
 
+    assert result is not None
     agent_output = {"resolution_output": result.model_dump()}
     state = merge_back(state, agent_output, ResolutionAgentView)
 

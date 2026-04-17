@@ -2,6 +2,7 @@
 
 import json
 import logging
+from typing import cast
 
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
@@ -65,18 +66,21 @@ def communication_agent_node(state: UnifiedAgentState) -> UnifiedAgentState:
     comm_context, locker_info = build_communication_context(view)
     user_content = f"CONTEXT:\n{json.dumps(comm_context, indent=2)}\n{locker_info}"
 
-    gen_llm = ChatOpenAI(model=settings.gen_model, temperature=settings.gen_temperature)
+    gen_llm = ChatOpenAI(model_name=settings.gen_model, temperature=settings.gen_temperature)
     structured_llm = gen_llm.with_structured_output(CommunicationOutput)
     max_retries = max(1, settings.max_retries)
-    result = None
+    result: CommunicationOutput | None = None
 
     for attempt in range(max_retries):
         try:
-            result = structured_llm.invoke(
-                [
-                    SystemMessage(content=COMMUNICATION_AGENT_SYSTEM_PROMPT),
-                    HumanMessage(content=user_content),
-                ]
+            result = cast(
+                CommunicationOutput,
+                structured_llm.invoke(
+                    [
+                        SystemMessage(content=COMMUNICATION_AGENT_SYSTEM_PROMPT),
+                        HumanMessage(content=user_content),
+                    ]
+                ),
             )
             break
         except Exception as e:
@@ -100,6 +104,7 @@ def communication_agent_node(state: UnifiedAgentState) -> UnifiedAgentState:
                     f"defaulting to generic message with forced escalation"
                 )
 
+    assert result is not None
     agent_output = {"communication_output": result.model_dump()}
     state = merge_back(state, agent_output, CommunicationAgentView)
 

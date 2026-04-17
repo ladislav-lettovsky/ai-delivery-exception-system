@@ -2,6 +2,7 @@
 
 import json
 import logging
+from typing import cast
 
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
@@ -46,14 +47,17 @@ def compute_coherence_score(pred: dict) -> dict:
 
     try:
         val_llm = ChatOpenAI(
-            model=settings.val_model, temperature=settings.val_temperature
+            model_name=settings.val_model, temperature=settings.val_temperature
         )
         judge = val_llm.with_structured_output(CoherenceEval)
-        parsed = judge.invoke(
-            [
-                SystemMessage(content=REASONING_TRAJECTORY_COHERENCE_PROMPT),
-                HumanMessage(content=json.dumps(trace, indent=2)),
-            ]
+        parsed = cast(
+            CoherenceEval,
+            judge.invoke(
+                [
+                    SystemMessage(content=REASONING_TRAJECTORY_COHERENCE_PROMPT),
+                    HumanMessage(content=json.dumps(trace, indent=2)),
+                ]
+            ),
         )
         score = max(1, min(5, int(parsed.score)))
         return {"score": score, "justification": parsed.justification}

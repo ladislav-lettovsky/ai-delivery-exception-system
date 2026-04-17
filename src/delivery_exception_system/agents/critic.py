@@ -2,6 +2,7 @@
 
 import json
 import logging
+from typing import cast
 
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
@@ -89,15 +90,19 @@ def critic_resolution_node(state: UnifiedAgentState) -> UnifiedAgentState:
     view = project_into(state, CriticResolutionView)
     user_content = build_critic_resolution_context(view)
 
-    val_llm = ChatOpenAI(model=settings.val_model, temperature=settings.val_temperature)
+    val_llm = ChatOpenAI(model_name=settings.val_model, temperature=settings.val_temperature)
     structured_llm = val_llm.with_structured_output(CriticResolutionOutput)
 
+    result: CriticResolutionOutput
     try:
-        result = structured_llm.invoke(
-            [
-                SystemMessage(content=CRITIC_RESOLUTION_SYSTEM_PROMPT),
-                HumanMessage(content=user_content),
-            ]
+        result = cast(
+            CriticResolutionOutput,
+            structured_llm.invoke(
+                [
+                    SystemMessage(content=CRITIC_RESOLUTION_SYSTEM_PROMPT),
+                    HumanMessage(content=user_content),
+                ]
+            ),
         )
     except Exception as e:
         result = CriticResolutionOutput(
@@ -132,15 +137,19 @@ def critic_communication_node(state: UnifiedAgentState) -> UnifiedAgentState:
     view = project_into(state, CriticCommunicationView)
     user_content = build_critic_communication_context(view)
 
-    val_llm = ChatOpenAI(model=settings.val_model, temperature=settings.val_temperature)
+    val_llm = ChatOpenAI(model_name=settings.val_model, temperature=settings.val_temperature)
     structured_llm = val_llm.with_structured_output(CriticCommunicationOutput)
 
+    result: CriticCommunicationOutput
     try:
-        result = structured_llm.invoke(
-            [
-                SystemMessage(content=CRITIC_COMMUNICATION_SYSTEM_PROMPT),
-                HumanMessage(content=user_content),
-            ]
+        result = cast(
+            CriticCommunicationOutput,
+            structured_llm.invoke(
+                [
+                    SystemMessage(content=CRITIC_COMMUNICATION_SYSTEM_PROMPT),
+                    HumanMessage(content=user_content),
+                ]
+            ),
         )
     except Exception as e:
         result = CriticCommunicationOutput(

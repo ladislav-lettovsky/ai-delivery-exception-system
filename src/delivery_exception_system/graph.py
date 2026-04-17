@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 def build_graph():
     """Construct and compile the LangGraph workflow. Returns the compiled app."""
-    workflow = StateGraph(UnifiedAgentState)
+    workflow = StateGraph(UnifiedAgentState)  # ty: ignore[invalid-argument-type]
 
     workflow.add_node("preprocessor", preprocessor_node)
     workflow.add_node("orchestrator", orchestrator_node)
