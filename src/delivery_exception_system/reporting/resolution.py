@@ -50,8 +50,9 @@ def shipment_resolution(sid: str, result: dict, ground_truth: dict):
     triggers = esc_sig.get("triggers", [])
     esc_line = " \u00b7 ".join(t.split(": ", 1)[-1] for t in triggers) if triggers else "none"
 
-    PF = lambda b: "PASS" if b else "FAIL"
-    NA_PF = lambda b: "N/A " if b is None else PF(b)
+    # N/A | Pass | Fail
+    def NA_PF(b: bool) -> str:
+        return "N/A " if b is None else "PASS" if b else "FAIL"
 
     def clean_traj(entry):
         cleaned = re.sub(r"actions=\{[^}]*(?:\{[^}]*\}[^}]*)?\};?\s*", "", entry)
@@ -119,7 +120,7 @@ def shipment_resolution(sid: str, result: dict, ground_truth: dict):
     print(
         f"\n  METRICS  \u00b7  Task: {NA_PF(tc['task_complete'])}  \u00b7  "
         f"Escalation: {NA_PF(result['escalation_correct'])}  \u00b7  "
-        f"Tool Calls: {PF(result['tool_call_correct'])}  \u00b7  "
+        f"Tool Calls: {NA_PF(result['tool_call_correct'])}  \u00b7  "
         f"Coherence: {coh['score']}/5  \u00b7  "
         f"Latency: {latency:.0f}s"
     )

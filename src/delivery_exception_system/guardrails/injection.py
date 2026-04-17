@@ -100,7 +100,7 @@ INJECTION_KEYWORDS = [
 ]
 
 
-def scan_for_injection(text: str) -> bool:
+def scan_for_injection(text: str | None) -> bool:
     """Returns True if prompt injection keywords are detected in the text."""
     if not text or not isinstance(text, str):
         return False

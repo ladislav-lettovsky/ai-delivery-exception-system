@@ -53,10 +53,7 @@ def _configure_logging(verbose: bool = False) -> None:
     WARNING).  When ``--verbose`` is passed, everything goes to DEBUG.
     Third-party loggers are always clamped to WARNING unless verbose.
     """
-    if verbose:
-        level = logging.DEBUG
-    else:
-        level = getattr(logging, settings.log_level.upper(), logging.WARNING)
+    level = logging.DEBUG if verbose else getattr(logging, settings.log_level.upper(), logging.WARNING)
 
     logging.basicConfig(
         level=level,
@@ -241,8 +238,8 @@ def main():
     # Optional: LangSmith dashboard
     if args.langsmith_dashboard:
         try:
+            from delivery_exception_system.langsmith_dashboard import compute_aggregate_metrics as ls_agg
             from delivery_exception_system.langsmith_dashboard import (
-                compute_aggregate_metrics as ls_agg,
                 fetch_langsmith_runs,
                 parse_run_metadata,
                 print_efficiency_dashboard,

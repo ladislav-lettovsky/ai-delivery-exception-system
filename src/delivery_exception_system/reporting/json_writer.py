@@ -8,7 +8,7 @@ without parsing terminal output.
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from delivery_exception_system.config import settings
@@ -128,7 +128,7 @@ def write_json_results(
 
     Returns the path of the written file.
     """
-    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
 
     if output_path is None:
         output_dir = settings.results_dir
@@ -141,7 +141,7 @@ def write_json_results(
         shipments.append(_serialize_shipment(sid, all_results[sid], gt))
 
     payload = {
-        "run_timestamp": datetime.now(timezone.utc).isoformat(),
+        "run_timestamp": datetime.now(UTC).isoformat(),
         "config": {
             "gen_model": settings.gen_model,
             "val_model": settings.val_model,

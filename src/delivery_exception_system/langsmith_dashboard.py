@@ -3,7 +3,7 @@
 import logging
 import os
 import statistics
-from typing import Any, Dict
+from typing import Any
 
 from langsmith import Client
 
@@ -52,7 +52,7 @@ def parse_run_metadata(runs: list) -> list:
     return records
 
 
-def compute_aggregate_metrics(records: list) -> Dict[str, Any]:
+def compute_aggregate_metrics(records: list) -> dict[str, Any]:
     """Compute aggregated efficiency metrics from parsed run records."""
     if not records:
         logger.warning("No run records to aggregate.")
@@ -79,7 +79,7 @@ def compute_aggregate_metrics(records: list) -> Dict[str, Any]:
     }
 
 
-def print_efficiency_dashboard(metrics: Dict[str, Any]) -> None:
+def print_efficiency_dashboard(metrics: dict[str, Any]) -> None:
     """Print a formatted efficiency dashboard."""
     if not metrics:
         print("No metrics to display.")
@@ -102,3 +102,4 @@ def print_efficiency_dashboard(metrics: Dict[str, Any]) -> None:
         f"\n"
         f"\n    Total Cost:           ${metrics['total_cost_usd']:.3f}"
     )
+# ..............................................................................................................................................

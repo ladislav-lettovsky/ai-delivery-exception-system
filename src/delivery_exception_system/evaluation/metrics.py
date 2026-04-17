@@ -104,13 +104,10 @@ def _policy_should_escalate(pred: dict) -> bool:
         return True
 
     reason = str(pred.get("escalation_reason") or "")
-    if "Max Retries" in reason:
-        return True
-
-    return False
+    return "Max Retries" in reason
 
 
-def compute_escalation_accuracy(gt: dict, pred: dict) -> bool:
+def compute_escalation_accuracy(gt: dict, pred: dict) -> bool | None:
     """Compare GT escalation to deterministic policy escalation computed from state context."""
     if gt.get("should_escalate") not in ("YES", "NO"):
         return None
@@ -123,7 +120,7 @@ def compute_escalation_accuracy(gt: dict, pred: dict) -> bool:
     return gt.get("should_escalate") == ("YES" if pred_flag else "NO")
 
 
-def compute_tool_call_accuracy(gt: dict, pred: dict) -> bool:
+def compute_tool_call_accuracy(gt: dict, pred: dict) -> bool | None:
     """Check if correct tools were invoked for a single shipment."""
     tool_log_str = " ".join(pred.get("tool_calls_log", []))
     is_exception = gt.get("is_exception", "NO")

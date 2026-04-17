@@ -31,10 +31,8 @@ def deduplicate_rows(raw_rows: list[dict]) -> list[dict]:
 
 def consolidate_event(unique_rows: list[dict], raw_rows: list[dict]) -> dict:
     """Consolidate multi-row shipment into a single event using highest attempt number."""
-    if unique_rows:
-        primary = max(unique_rows, key=lambda r: int(r.get("attempt_number", 0)))
-    else:
-        primary = raw_rows[0]
+
+    primary = max(unique_rows, key=lambda r: int(r.get("attempt_number", 0))) if unique_rows else raw_rows[0]
 
     prior_notes = [
         f"Attempt {r['attempt_number']}: {r['status_description']}"

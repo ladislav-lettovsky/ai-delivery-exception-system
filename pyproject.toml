@@ -24,6 +24,8 @@ dependencies = [
 dev = [
     "pytest>=8.0",
     "ipython>=9.10.1",
+    "ruff>=0.15.10",
+    "ty>=0.0.30",
 ]
 
 [project.scripts]
@@ -42,3 +44,18 @@ pythonpath = ["src"]
 markers = [
     "integration: marks tests as integration tests requiring live LLM APIs (deselect with '-m not integration')",
 ]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ty]
+

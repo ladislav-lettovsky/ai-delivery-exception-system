@@ -1,7 +1,7 @@
 """Agent state definitions and PII access control views."""
 
 from dataclasses import dataclass, fields
-from typing import Optional, TypedDict
+from typing import TypedDict
 
 
 class UnifiedAgentState(TypedDict):
@@ -44,8 +44,8 @@ class UnifiedAgentState(TypedDict):
     escalation_reason: str  # FIX: was used but never declared in original
     tool_calls_log: list[str]
     trajectory_log: list[str]
-    start_time: Optional[float]
-    latency_sec: Optional[float]
+    start_time: float | None
+    latency_sec: float | None
     final_actions: list[dict]
 
 
@@ -77,11 +77,11 @@ class RouterView:
     next_agent: str
     max_loops: int
     escalated: bool
-    escalation_reason: Optional[str]
+    escalation_reason: str | None
     tool_calls_log: list[str]
     trajectory_log: list[str]
-    start_time: Optional[float]
-    latency_sec: Optional[float]
+    start_time: float | None
+    latency_sec: float | None
     final_actions: list[dict]
 
 

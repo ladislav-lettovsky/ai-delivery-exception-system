@@ -3,8 +3,8 @@
 import logging
 
 import pandas as pd
-from pypdf import PdfReader
 from langchain_core.documents import Document
+from pypdf import PdfReader
 
 from delivery_exception_system.config import settings
 
