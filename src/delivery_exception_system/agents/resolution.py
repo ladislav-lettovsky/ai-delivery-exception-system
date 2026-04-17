@@ -27,7 +27,7 @@ Propose resolutions: "RESCHEDULE", "REROUTE_TO_LOCKER", "REPLACE", "RETURN_TO_SE
 1. **Playbook**: Strictly adhere to `RELEVANT PLAYBOOK SECTIONS` and explicitly cite page numbers.
 2. **Customer Tier**: Prioritize RESCHEDULE and retention for VIP/PREMIUM over RETURNS unless unresolvable.
 3. **Escalations**: AUTOMATIC triggers strongly imply an exception needing customer-friendly resolution. DISCRETIONARY urges retention.
-4. **Specifics**: DAMAGED -> REPLACE. REFUSED -> RETURN_TO_SENDER. ATTEMPTED -> RESCHEDULE. First-time ADDRESS_ISSUE -> RESCHEDULE. 3rd Attempt -> REROUTE_TO_LOCKER.
+4. **Specifics**: DAMAGED -> REPLACE. DELAYED PERISHABLE ITEM -> REPLACE. REFUSED -> RETURN_TO_SENDER. ATTEMPTED -> RESCHEDULE. First-time ADDRESS_ISSUE -> RESCHEDULE. 3rd Attempt -> REROUTE_TO_LOCKER.
 5. **Schema constraints**: Output strictly matches `ResolutionOutput`. Maintain mutual consistency between `is_exception` and `resolution`.
 6. **Rationale**: Provide clear step-by-step reasoning referencing rules. If playbook requires HOLD for ADDRESS_ISSUE, output RESCHEDULE and state you are holding for contact. If the playbook dictates escalation (e.g. VIP >= 3 exceptions), explicitly acknowledge in the rationale that the Orchestrator will automatically handle the escalation.
 
