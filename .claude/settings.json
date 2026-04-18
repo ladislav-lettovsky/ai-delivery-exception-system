@@ -35,11 +35,15 @@
         "Edit(CONTRIBUTING.md)",
         "Edit(.cursor/**)",
         "Edit(.claude/**)",
+        "Edit(.scratch/**)",
         "Write(src/**)",
         "Write(tests/**)",
         "Write(docs/**)",
         "Write(.cursor/**)",
-        "Write(.claude/**)"
+        "Write(.claude/**)",
+        "Write(.scratch/**)",
+        "Bash(mkdir -p .scratch*)",
+        "Bash(rm .scratch/*)"
       ],
       "ask": [
         "Bash(git commit*)",

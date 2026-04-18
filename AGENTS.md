@@ -89,6 +89,22 @@ deterministic guardrails and RAG-grounded playbook retrieval.
 - New features require at least one deterministic test in the matching
   `test_<component>.py` file. See CONTRIBUTING.md for the full test matrix.
 
+## Ephemeral / scratch work
+Use `.scratch/` at the repo root for any exploratory, diagnostic, or
+throwaway work — quick Python snippets, draft queries, debug logs, or
+scratch notes. The directory is git-ignored, so nothing here is ever
+committed.
+
+- Create on demand: `mkdir -p .scratch`
+- Preferred file names: `<topic>.py`, `<topic>.md`, `<topic>.sql`, etc.
+- Do NOT place exploratory files at the repo root — always use `.scratch/`
+- Clean up periodically (nothing persists beyond your working session)
+
+Examples of good `.scratch/` use:
+- `.scratch/try_new_prompt.py` — testing an agent prompt variation
+- `.scratch/debug_chroma.py` — poking at the vector store interactively
+- `.scratch/sql_exploration.md` — draft SQL before moving to `tools/`
+
 ## Before saying "done"
 1. `just check` passes (ruff + ty + pytest, no integration tests)
 2. Any new public function has a test and a type-annotated signature

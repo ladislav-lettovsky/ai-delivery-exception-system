@@ -33,6 +33,9 @@ htmlcov/
 # Run results
 results/
 
+# Ephemeral workspace
+.scratch/
+
 # OS
 .DS_Store
 Thumbs.db
