@@ -37,7 +37,9 @@ This project uses the [src layout](https://packaging.python.org/en/latest/discus
 | `main` | Production-ready code. All CI must pass before merging. |
 | `feature/<name>` | New features (e.g., `feature/adjacent-zip-lockers`) |
 | `fix/<name>` | Bug fixes (e.g., `fix/escalation-threshold`) |
-| `docs/<name>` | Documentation updates |
+| `refactor/<name>` | Internal restructuring with no behavior change (e.g., `refactor/extract-pii-view`) |
+| `chore/<name>` | Tooling, config, dependencies — no runtime behavior change (e.g., `chore/claude-code-setup`) |
+| `docs/<name>` | Documentation-only updates (README, CONTRIBUTING, inline docs) |
 
 ## Running Tests
 
