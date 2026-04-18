@@ -1,4 +1,4 @@
-# ai-delivery-exception-system — Claude Code Memory
+# ai-delivery-exception-system — AI Agent Memory
 
 ## What this is
 An AI-powered multi-agent system (LangGraph) that automates last-mile delivery
