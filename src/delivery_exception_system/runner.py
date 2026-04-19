@@ -238,7 +238,9 @@ def main():
     # Optional: LangSmith dashboard
     if args.langsmith_dashboard:
         try:
-            from delivery_exception_system.langsmith_dashboard import compute_aggregate_metrics as ls_agg
+            from delivery_exception_system.langsmith_dashboard import (
+                compute_aggregate_metrics as ls_agg,
+            )
             from delivery_exception_system.langsmith_dashboard import (
                 fetch_langsmith_runs,
                 parse_run_metadata,

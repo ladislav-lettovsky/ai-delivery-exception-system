@@ -1,0 +1,45 @@
+---
+description: Test conventions for pytest-based tests in this repo
+globs: tests/**/*.py
+---
+
+# Test conventions
+
+## Canonical commands
+- Run all tests: `just test` (wraps `uv run pytest`)
+- Full pre-commit check: `just check` (ruff + ty + pytest)
+- Skip integration: `pytest -m "not integration"`
+- Run only integration: `pytest -m integration`
+
+## File and class structure
+- One test file per source module/concern (e.g., `test_state.py` for `models/state.py`)
+- Module docstring required: `"""Tests for X."""`
+- Group related tests in `Test<Concept>` classes (pytest auto-discovers these)
+- Plain `def test_*` methods inside classes — do **not** use `unittest.TestCase`
+- Private helpers (fixtures, factories) prefix with `_` (e.g., `_make_state()`) so pytest won't collect them
+
+## Markers
+- `@pytest.mark.integration` for tests requiring live LLM APIs — register in `pyproject.toml`
+- `@pytest.mark.skipif(not HAS_DATA, reason="Data files not present")` for tests requiring `data/` fixtures
+- Never let a test hard-fail on missing env; use `skipif` with a clear reason
+
+## Environment setup belongs in `conftest.py`
+Shared setup (sys.path, env vars like `LANGCHAIN_TRACING_V2=false`) lives in
+`tests/conftest.py`, not in individual test files. If you need a new shared
+fixture, add it there.
+
+## Architectural-invariant tests
+Some tests encode contracts from the codebase (not just behavior). Treat these
+as load-bearing:
+- `test_state.py::TestProjectInto` — view-based PII boundaries
+  (`customer_profile_full` only in Communication and Router views)
+- If you add a new view in `models/state.py`, add a corresponding
+  `project_into` test that asserts its field membership
+
+## What not to test
+- LLM output content (non-deterministic) — test structure (`decision in {ACCEPT, REVISE, ESCALATE}`), not prose
+- Private helpers of production code — test the public surface
+- Prompt strings verbatim — they change; test behavior under mocked LLM responses instead
+
+## See also
+@AGENTS.md

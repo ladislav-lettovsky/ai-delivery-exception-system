@@ -1,0 +1,50 @@
+---
+description: LangGraph agent and graph conventions for this repo
+globs: src/delivery_exception_system/agents/**/*.py,src/delivery_exception_system/graph.py,src/delivery_exception_system/models/state.py,src/delivery_exception_system/preprocessing/**/*.py
+---
+
+# LangGraph conventions
+
+## Topology: hub-and-spoke, not pipeline
+All agent nodes edge back to `orchestrator`, never directly to the next
+logical agent. The orchestrator is the sole router (see
+`route_from_orchestrator` in `agents/orchestrator.py`).
+
+When adding a new agent node:
+1. In `graph.py`, add `workflow.add_edge("new_agent", "orchestrator")`
+2. Add `"new_agent": "new_agent"` to the `add_conditional_edges` mapping
+3. In `agents/orchestrator.py`, add a routing branch that sets `state["next_agent"] = "new_agent"`
+
+Never add a direct edge between two agent nodes.
+
+## State is `UnifiedAgentState` (TypedDict); agents see views (dataclasses)
+`models/state.py` defines:
+- `UnifiedAgentState` — global TypedDict
+- View dataclasses (`RouterView`, `ResolutionAgentView`, `CommunicationAgentView`,
+  `CriticResolutionView`, `CriticCommunicationView`)
+- `project_into(state, ViewClass)` — read-path projection
+- `merge_back(state, output, ViewClass)` — write-path restriction
+
+View field lists are **privacy boundaries**:
+- `customer_profile` is redacted (no name) — safe for Resolution and Critic
+- `customer_profile_full` includes PII — only Communication sees this
+- Critic views never include `customer_profile_full`
+
+## Agent node signature
+Every agent node:
+1. Decorated with `@traceable(name="<node_name>")` from `langsmith`
+2. Takes `state: UnifiedAgentState`, returns `UnifiedAgentState`
+3. Projects state through `project_into(state, <AgentName>View)` at the top
+4. Appends to `state["trajectory_log"]` for observability
+5. Never raises — errors become escalations via `state["escalated"] = True`
+
+## Bounded revision loops
+Orchestrator caps critic-driven revision cycles via `state["max_loops"]`
+(default 2). When ceiling is hit, auto-escalates rather than looping.
+
+## Critic decision vocabulary
+Critic agents return `decision` ∈ `{"ACCEPT", "REVISE", "ESCALATE"}`.
+Consumers must handle all three.
+
+## See also
+@AGENTS.md
