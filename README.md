@@ -54,42 +54,43 @@ Delivery Logs ──► Preprocessor ──► Orchestrator ──► Resolution
 
 ```
 ai-delivery-exception-system/
-├── src/delivery_exception_system/     # Production Python package (src layout)
-│   ├── config.py                      # Centralized settings from environment variables
-│   ├── models/
-│   │   ├── state.py                   # UnifiedAgentState, 5 PII-controlled View dataclasses
-│   │   └── schemas.py                 # Pydantic output schemas for all agents
-│   ├── data/
-│   │   ├── loader.py                  # CSV, SQLite, and PDF data loading
-│   │   └── vectorstore.py             # ChromaDB with persistence and PDF hash caching
-│   ├── tools/                         # LangChain @tool functions
-│   │   ├── delivery_logs.py           # Read delivery log CSV
-│   │   ├── customer_profile.py        # SQLite customer lookup with PII redaction
-│   │   ├── locker_availability.py     # Smart locker eligibility check
-│   │   ├── playbook_search.py         # ChromaDB vector search
-│   │   └── escalation_rules.py        # Deterministic rule engine (single source of truth)
-│   ├── guardrails/
-│   │   ├── injection.py               # 90+ keyword prompt injection detection
-│   │   └── noise.py                   # Routine status code filtering
-│   ├── preprocessing/
-│   │   └── preprocessor.py            # 6-step pipeline: dedup → consolidate → guardrails → context
-│   ├── agents/
-│   │   ├── orchestrator.py            # 9-step deterministic router
-│   │   ├── resolution.py              # Exception classification and resolution
-│   │   ├── communication.py           # Customer notification generation
-│   │   ├── critic.py                  # Resolution and communication validation
-│   │   └── finalize.py                # Final packaging with shared escalation logic
-│   ├── evaluation/
-│   │   ├── metrics.py                 # Task completion, escalation accuracy, tool call accuracy
-│   │   ├── coherence.py               # LLM-as-judge coherence scoring
-│   │   └── dashboard.py               # Aggregate metrics
-│   ├── reporting/
-│   │   ├── summary.py                 # Compact tabular output
-│   │   ├── resolution.py              # Detailed box-formatted reports
-│   │   └── json_writer.py             # Structured JSON results output
-│   ├── langsmith_dashboard.py         # LangSmith cost and token dashboard
-│   ├── graph.py                       # LangGraph workflow construction
-│   └── runner.py                      # CLI entry point
+├── src/
+│   └── delivery_exception_system/         # Production Python package (src layout)
+│       ├── config.py                      # Centralized settings from environment variables
+│       ├── models/
+│       │   ├── state.py                   # UnifiedAgentState, 5 PII-controlled View dataclasses
+│       │   └── schemas.py                 # Pydantic output schemas for all agents
+│       ├── data/
+│       │   ├── loader.py                  # CSV, SQLite, and PDF data loading
+│       │   └── vectorstore.py             # ChromaDB with persistence and PDF hash caching
+│       ├── tools/                         # LangChain @tool functions
+│       │   ├── delivery_logs.py           # Read delivery log CSV
+│       │   ├── customer_profile.py        # SQLite customer lookup with PII redaction
+│       │   ├── locker_availability.py     # Smart locker eligibility check
+│       │   ├── playbook_search.py         # ChromaDB vector search
+│       │   └── escalation_rules.py        # Deterministic rule engine (single source of truth)
+│       ├── guardrails/
+│       │   ├── injection.py               # 90+ keyword prompt injection detection
+│       │   └── noise.py                   # Routine status code filtering
+│       ├── preprocessing/
+│       │   └── preprocessor.py            # 6-step pipeline: dedup → consolidate → guardrails → context
+│       ├── agents/
+│       │   ├── orchestrator.py            # 9-step deterministic router
+│       │   ├── resolution.py              # Exception classification and resolution
+│       │   ├── communication.py           # Customer notification generation
+│       │   ├── critic.py                  # Resolution and communication validation
+│       │   └── finalize.py                # Final packaging with shared escalation logic
+│       ├── evaluation/
+│       │   ├── metrics.py                 # Task completion, escalation accuracy, tool call accuracy
+│       │   ├── coherence.py               # LLM-as-judge coherence scoring
+│       │   └── dashboard.py               # Aggregate metrics
+│       ├── reporting/
+│       │   ├── summary.py                 # Compact tabular output
+│       │   ├── resolution.py              # Detailed box-formatted reports
+│       │   └── json_writer.py             # Structured JSON results output
+│       ├── langsmith_dashboard.py         # LangSmith cost and token dashboard
+│       ├── graph.py                       # LangGraph workflow construction
+│       └── runner.py                      # CLI entry point
 ├── data/                              # Data files (UT Austin course materials)
 │   ├── customers.db                   # SQLite: 12 customers + smart lockers
 │   ├── delivery_logs.csv              # 13 delivery log rows, 10 shipments
