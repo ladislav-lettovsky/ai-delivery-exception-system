@@ -31,4 +31,10 @@ jobs:
       - name: Run full quality check
         env:
           LANGCHAIN_TRACING_V2: "false"
+          # Skip the local-only `no-commit-to-branch` guard in CI.
+          # That hook protects devs from committing to `main` directly;
+          # in CI we ARE on `main` (post-merge push), and the hook would
+          # otherwise fail every push-to-main run. Ruff, ty, and the stock
+          # hygiene hooks still run.
+          SKIP: no-commit-to-branch
         run: just check
