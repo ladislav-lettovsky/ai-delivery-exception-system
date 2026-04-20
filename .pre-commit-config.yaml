@@ -1,4 +1,24 @@
+# Pre-commit hooks — canonical config for all portfolio repos.
+# Architecture: Style B (mixed) — ruff/ty as repo: local (uv-managed),
+# stock utility hooks pulled from pre-commit-hooks upstream.
+#
+# To install locally after cloning: `just install-hooks`
+# To run manually on all files: `uv run pre-commit run --all-files`
+
 repos:
+  # ---------- Stock utility hooks ----------
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: end-of-file-fixer        # Ensure files end with exactly one newline
+      - id: trailing-whitespace      # Strip trailing whitespace from lines
+      - id: check-yaml               # Validate YAML syntax
+      - id: check-toml               # Validate TOML syntax
+      - id: check-merge-conflict     # Block commits with <<<<<<< markers
+      - id: check-added-large-files  # Block blobs >500KB (use Git LFS or external hosting)
+        args: [--maxkb=500]
+
+  # ---------- Code quality (uv-managed, versions pinned in pyproject.toml/uv.lock) ----------
   - repo: local
     hooks:
       - id: ruff-check

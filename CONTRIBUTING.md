@@ -10,6 +10,9 @@ cd ai-delivery-exception-system
 # Install with dev dependencies
 uv sync --extra dev
 
+# Install pre-commit hooks (runs ruff, ty, and hygiene checks on every commit)
+just install-hooks
+
 # Configure environment
 cp .env.example .env
 # Edit .env with your API keys

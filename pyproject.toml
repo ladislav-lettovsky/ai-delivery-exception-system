@@ -26,6 +26,7 @@ dev = [
     "ipython>=9.10.1",
     "ruff>=0.15.10",
     "ty>=0.0.30",
+    "pre-commit>=4.0",
 ]
 
 [project.scripts]
@@ -58,4 +59,3 @@ quote-style = "double"
 indent-style = "space"
 
 [tool.ty]
-
