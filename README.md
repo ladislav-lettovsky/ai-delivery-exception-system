@@ -90,16 +90,34 @@ ai-delivery-exception-system/
 │   ├── langsmith_dashboard.py         # LangSmith cost and token dashboard
 │   ├── graph.py                       # LangGraph workflow construction
 │   └── runner.py                      # CLI entry point
-├── data/                              # Data files
+├── data/                              # Data files (UT Austin course materials)
 │   ├── customers.db                   # SQLite: 12 customers + smart lockers
 │   ├── delivery_logs.csv              # 13 delivery log rows, 10 shipments
 │   ├── ground_truth.csv               # Hand-labeled expected outcomes
 │   └── exception_resolution_playbook.pdf  # 10-page operational playbook (v3.1)
-├── results/                           # JSON results from each run (git-ignored)
 ├── tests/                             # 43 pytest tests
-├── pyproject.toml                     # Project metadata and dependencies
+├── results/                           # JSON results from each run (git-ignored)
+├── .scratch/                          # Sanctioned scratchpad for AI agents (git-kept, .gitignored contents)
+├── .claude/                           # Claude Code project config
+│   └── settings.json
+├── .cursor/                           # Cursor IDE rules
+│   └── rules/
+│       ├── 00-always.mdc              # Always-on invariants + check gate
+│       ├── langgraph.mdc              # LangGraph patterns (scoped)
+│       ├── tests.mdc                  # Pytest conventions (scoped)
+│       └── writing-rules.mdc          # Meta-guide for rule authoring
+├── .github/workflows/ci.yml           # GitHub Actions CI
+├── AGENTS.md                          # AI agent memory — invariants, architecture, pitfalls
+├── CLAUDE.md                          # Claude Code entry point → AGENTS.md
+├── CONTRIBUTING.md                    # Contribution guide
+├── LICENSE                            # MIT (source code only; see README Acknowledgments for data)
+├── README.md                          # You are here
+├── justfile                           # Task runner — `just check` = full quality gate
+├── pyproject.toml                     # Project metadata, deps, ruff/ty/pytest config
+├── uv.lock                            # Reproducible dependency lockfile
+├── .pre-commit-config.yaml            # Ruff + ty pre-commit hooks
 ├── .env.example                       # Environment variable template
-└── .github/workflows/ci.yml           # GitHub Actions CI
+└── .gitignore
 ```
 
 ## Data
@@ -213,9 +231,27 @@ uv run pytest tests/test_graph.py --run-integration
 3. **Develop monitoring and human-in-the-loop workflows** — at ~70% escalation rate, supervisor dashboards should surface escalation reason, revision history, and Critic rationale
 4. **Enable adjacent-zip locker rerouting** — query nearby zip codes to increase successful rerouting when same-zip locker is full
 
-## License
+## License & Acknowledgments
 
-This project was developed as part of the Agentic AI Postgraduate Program at UT Austin / Great Learning.
+### Source code
+The source code in this repository is released under the [MIT License](LICENSE).
+Copyright (c) 2026 Ladislav Lettovsky.
+
+### Data
+The files under `data/` — `customers.db`, `delivery_logs.csv`,
+`exception_resolution_playbook.pdf`, and `ground_truth.csv` — are course
+materials provided by the **University of Texas at Austin Post-Graduate
+Program in Artificial Intelligence & Machine Learning**. They are included
+here solely to make the demo reproducible and are retained under their
+original course-provided terms. They are **not** redistributed under the
+MIT License and are **not** covered by the copyright notice above.
+
+### Built with
+- [LangGraph](https://github.com/langchain-ai/langgraph) — agent orchestration
+- [LangChain](https://github.com/langchain-ai/langchain) — LLM integrations, text splitting, document loaders
+- [Chroma](https://github.com/chroma-core/chroma) — vector database
+- [sentence-transformers](https://github.com/UKPLab/sentence-transformers) — embeddings via HuggingFace
+- [OpenAI](https://openai.com/) — underlying LLM
 
 ## Author
 

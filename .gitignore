@@ -33,8 +33,9 @@ htmlcov/
 # Run results
 results/
 
-# Ephemeral workspace
-.scratch/
+# Ephemeral workspace — scratch directory for AI agents; contents ignored, .gitkeep tracked to preserve the directory
+.scratch/*
+!.scratch/.gitkeep
 
 # OS
 .DS_Store
