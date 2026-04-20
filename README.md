@@ -1,4 +1,6 @@
-# AI-Powered Last Mile Delivery Exception Handling Automation
+# AI-powered Last Mile Delivery Exception Handling Automation
+
+[![CI](https://github.com/ladislav-lettovsky/ai-delivery-exception-system/actions/workflows/ci.yml/badge.svg)](https://github.com/ladislav-lettovsky/ai-delivery-exception-system/actions/workflows/ci.yml)
 
 An AI-powered multi-agent system that automates end-to-end handling of last-mile delivery exceptions — from detection and triage through resolution and personalized customer communication.
 

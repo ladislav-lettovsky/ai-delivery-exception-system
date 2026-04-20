@@ -30,6 +30,5 @@ jobs:
 
       - name: Run full quality check
         env:
-          OPENAI_API_KEY: sk-test-key-for-ci
           LANGCHAIN_TRACING_V2: "false"
         run: just check
