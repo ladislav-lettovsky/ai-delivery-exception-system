@@ -32,7 +32,11 @@ def deduplicate_rows(raw_rows: list[dict]) -> list[dict]:
 def consolidate_event(unique_rows: list[dict], raw_rows: list[dict]) -> dict:
     """Consolidate multi-row shipment into a single event using highest attempt number."""
 
-    primary = max(unique_rows, key=lambda r: int(r.get("attempt_number", 0))) if unique_rows else raw_rows[0]
+    primary = (
+        max(unique_rows, key=lambda r: int(r.get("attempt_number", 0)))
+        if unique_rows
+        else raw_rows[0]
+    )
 
     prior_notes = [
         f"Attempt {r['attempt_number']}: {r['status_description']}"
@@ -75,9 +79,7 @@ def fetch_context(consolidated: dict, tool_log: list[str]) -> dict:
     locker_availability = check_locker_availability.invoke(
         {"zip_code": zip_code, "package_size": consolidated["package_size"]}
     )
-    tool_log.append(
-        f"TOOL: check_locker_availability({zip_code}, {consolidated['package_size']})"
-    )
+    tool_log.append(f"TOOL: check_locker_availability({zip_code}, {consolidated['package_size']})")
 
     query = (
         f"{consolidated['status_code']} {consolidated['package_type']} "

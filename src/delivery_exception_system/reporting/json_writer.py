@@ -86,9 +86,7 @@ def _serialize_shipment(sid: str, result: dict, ground_truth: dict) -> dict:
 def _compute_aggregate(all_results: dict, gt_consolidated: dict) -> dict:
     """Compute aggregate metrics as a plain dict."""
     total = len(all_results)
-    completed = sum(
-        1 for r in all_results.values() if r["task_completion"]["task_complete"]
-    )
+    completed = sum(1 for r in all_results.values() if r["task_completion"]["task_complete"])
     esc_evaluated = 0
     esc_correct = 0
     tool_correct = 0

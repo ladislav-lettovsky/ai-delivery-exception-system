@@ -144,9 +144,7 @@ def project_into(state: UnifiedAgentState, view_class: type) -> dict:
     return {k: state.get(k) for k in view_fields if k in state}
 
 
-def merge_back(
-    state: UnifiedAgentState, agent_output: dict, view_class: type
-) -> UnifiedAgentState:
+def merge_back(state: UnifiedAgentState, agent_output: dict, view_class: type) -> UnifiedAgentState:
     """Write back only the fields owned by the agent's view into the global state."""
     view_fields = {f.name for f in fields(view_class)}
     for k, v in agent_output.items():

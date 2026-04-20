@@ -53,7 +53,9 @@ def _configure_logging(verbose: bool = False) -> None:
     WARNING).  When ``--verbose`` is passed, everything goes to DEBUG.
     Third-party loggers are always clamped to WARNING unless verbose.
     """
-    level = logging.DEBUG if verbose else getattr(logging, settings.log_level.upper(), logging.WARNING)
+    level = (
+        logging.DEBUG if verbose else getattr(logging, settings.log_level.upper(), logging.WARNING)
+    )
 
     logging.basicConfig(
         level=level,
@@ -116,9 +118,7 @@ def process_shipment(app, shipment_id: str, raw_rows: list[dict], ground_truth: 
 
 def main():
     """CLI entry point."""
-    parser = argparse.ArgumentParser(
-        description="AI-powered delivery exception handling system"
-    )
+    parser = argparse.ArgumentParser(description="AI-powered delivery exception handling system")
     parser.add_argument(
         "--shipment-id",
         type=str,

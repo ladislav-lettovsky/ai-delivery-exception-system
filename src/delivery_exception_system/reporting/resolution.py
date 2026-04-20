@@ -66,7 +66,9 @@ def shipment_resolution(sid: str, result: dict, ground_truth: dict):
     elif is_noise:
         label += "  \u00b7  NOISE"
     else:
-        label += f"  {'\u2713 EXCEPTION' if res.get('is_exception') == 'YES' else '\u25cb NO EXCEPTION'}"
+        label += (
+            f"  {'\u2713 EXCEPTION' if res.get('is_exception') == 'YES' else '\u25cb NO EXCEPTION'}"
+        )
     print(f"\u2551{label:<{W}}\u2551")
     print(f"\u255a{'\u2550' * W}\u255d")
 
@@ -74,7 +76,7 @@ def shipment_resolution(sid: str, result: dict, ground_truth: dict):
         description = event.get("status_description", "")
         print(
             f"\n  EVENT"
-            f"\n    Status      {event.get('status_code', '?')}  \u00b7  \"{description}\""
+            f'\n    Status      {event.get("status_code", "?")}  \u00b7  "{description}"'
             f"\n    Package     {event.get('package_size', '?')}  \u00b7  "
             f"{event.get('package_type', '?')}  \u00b7  Attempt #{int(event.get('attempt_number', 0))}"
         )

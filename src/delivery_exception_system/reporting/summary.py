@@ -6,8 +6,15 @@ import pandas as pd
 def shipment_summary(sid: str, result: dict, gt: dict, print_header: bool = False):
     """Print a compact one-line summary row for a shipment."""
     col_w = {
-        "sid": 9, "exc": 6, "res": 18, "tone": 8, "esc": 5,
-        "task": 6, "tools": 6, "coh": 10, "lat": 4,
+        "sid": 9,
+        "exc": 6,
+        "res": 18,
+        "tone": 8,
+        "esc": 5,
+        "task": 6,
+        "tools": 6,
+        "coh": 10,
+        "lat": 4,
     }
     header = (
         f"{'Shipment':<{col_w['sid']}} "
@@ -72,6 +79,6 @@ def shipment_summary(sid: str, result: dict, gt: dict, print_header: bool = Fals
         f"| "
         f"{task:>{col_w['task']}} "
         f"{tools:>{col_w['tools']}} "
-        f"{coh:>{col_w['coh']-2}}/5 "
+        f"{coh:>{col_w['coh'] - 2}}/5 "
         f"{lat:>{col_w['lat']}}"
     )

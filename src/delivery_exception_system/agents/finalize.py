@@ -76,9 +76,7 @@ def finalize_node(state: UnifiedAgentState) -> UnifiedAgentState:
             "resolution": view.get("resolution_output", {}).get("resolution", "ERROR"),
             "escalated": policy_escalated,
             "tone": view.get("communication_output", {}).get("tone_label", "N/A"),
-            "message": view.get("communication_output", {}).get(
-                "communication_message", ""
-            ),
+            "message": view.get("communication_output", {}).get("communication_message", ""),
             "revision_count": view.get("resolution_revision_count", 0),
             "guardrail_blocked": False,
         }
@@ -92,8 +90,6 @@ def finalize_node(state: UnifiedAgentState) -> UnifiedAgentState:
         "next_agent": "END",
     }
 
-    state["trajectory_log"].append(
-        f"finalize: actions={json.dumps(final)}; latency={latency:.3f}s"
-    )
+    state["trajectory_log"].append(f"finalize: actions={json.dumps(final)}; latency={latency:.3f}s")
 
     return merge_back(state, output, RouterView)

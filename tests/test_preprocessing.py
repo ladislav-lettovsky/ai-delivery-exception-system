@@ -32,12 +32,28 @@ class TestDeduplication:
 class TestConsolidation:
     def test_picks_highest_attempt(self):
         rows = [
-            {"shipment_id": "SHP-001", "attempt_number": "1", "status_code": "ATTEMPTED",
-             "timestamp": "t1", "status_description": "Not home", "customer_id": "C1",
-             "delivery_address": "123 Main, 10001", "package_type": "STD", "package_size": "MEDIUM"},
-            {"shipment_id": "SHP-001", "attempt_number": "2", "status_code": "ATTEMPTED",
-             "timestamp": "t2", "status_description": "Still not home", "customer_id": "C1",
-             "delivery_address": "123 Main, 10001", "package_type": "STD", "package_size": "MEDIUM"},
+            {
+                "shipment_id": "SHP-001",
+                "attempt_number": "1",
+                "status_code": "ATTEMPTED",
+                "timestamp": "t1",
+                "status_description": "Not home",
+                "customer_id": "C1",
+                "delivery_address": "123 Main, 10001",
+                "package_type": "STD",
+                "package_size": "MEDIUM",
+            },
+            {
+                "shipment_id": "SHP-001",
+                "attempt_number": "2",
+                "status_code": "ATTEMPTED",
+                "timestamp": "t2",
+                "status_description": "Still not home",
+                "customer_id": "C1",
+                "delivery_address": "123 Main, 10001",
+                "package_type": "STD",
+                "package_size": "MEDIUM",
+            },
         ]
         result = consolidate_event(rows, rows)
         assert result["attempt_number"] == 2
@@ -45,12 +61,28 @@ class TestConsolidation:
 
     def test_includes_prior_notes(self):
         rows = [
-            {"shipment_id": "SHP-001", "attempt_number": "1", "status_code": "ATTEMPTED",
-             "timestamp": "t1", "status_description": "Not home", "customer_id": "C1",
-             "delivery_address": "123 Main, 10001", "package_type": "STD", "package_size": "MEDIUM"},
-            {"shipment_id": "SHP-001", "attempt_number": "2", "status_code": "ATTEMPTED",
-             "timestamp": "t2", "status_description": "Still not home", "customer_id": "C1",
-             "delivery_address": "123 Main, 10001", "package_type": "STD", "package_size": "MEDIUM"},
+            {
+                "shipment_id": "SHP-001",
+                "attempt_number": "1",
+                "status_code": "ATTEMPTED",
+                "timestamp": "t1",
+                "status_description": "Not home",
+                "customer_id": "C1",
+                "delivery_address": "123 Main, 10001",
+                "package_type": "STD",
+                "package_size": "MEDIUM",
+            },
+            {
+                "shipment_id": "SHP-001",
+                "attempt_number": "2",
+                "status_code": "ATTEMPTED",
+                "timestamp": "t2",
+                "status_description": "Still not home",
+                "customer_id": "C1",
+                "delivery_address": "123 Main, 10001",
+                "package_type": "STD",
+                "package_size": "MEDIUM",
+            },
         ]
         result = consolidate_event(rows, rows)
         assert len(result["prior_attempt_notes"]) == 1
@@ -58,9 +90,17 @@ class TestConsolidation:
 
     def test_single_row(self):
         rows = [
-            {"shipment_id": "SHP-001", "attempt_number": "1", "status_code": "DAMAGED",
-             "timestamp": "t1", "status_description": "Crushed", "customer_id": "C1",
-             "delivery_address": "123 Main, 10001", "package_type": "STD", "package_size": "MEDIUM"},
+            {
+                "shipment_id": "SHP-001",
+                "attempt_number": "1",
+                "status_code": "DAMAGED",
+                "timestamp": "t1",
+                "status_description": "Crushed",
+                "customer_id": "C1",
+                "delivery_address": "123 Main, 10001",
+                "package_type": "STD",
+                "package_size": "MEDIUM",
+            },
         ]
         result = consolidate_event(rows, rows)
         assert result["attempt_number"] == 1

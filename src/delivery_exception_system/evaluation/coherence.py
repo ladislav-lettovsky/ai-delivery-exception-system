@@ -46,9 +46,7 @@ def compute_coherence_score(pred: dict) -> dict:
     }
 
     try:
-        val_llm = ChatOpenAI(
-            model_name=settings.val_model, temperature=settings.val_temperature
-        )
+        val_llm = ChatOpenAI(model_name=settings.val_model, temperature=settings.val_temperature)
         judge = val_llm.with_structured_output(CoherenceEval)
         parsed = cast(
             CoherenceEval,

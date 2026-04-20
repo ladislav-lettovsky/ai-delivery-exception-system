@@ -112,9 +112,7 @@ def critic_resolution_node(state: UnifiedAgentState) -> UnifiedAgentState:
                 f"Error: {str(e)[:200]}"
             ),
         )
-        state["trajectory_log"].append(
-            "critic_resolution: runtime failure -> forced ESCALATE"
-        )
+        state["trajectory_log"].append("critic_resolution: runtime failure -> forced ESCALATE")
 
     agent_output = {"critic_resolution_output": result.model_dump()}
     state = merge_back(state, agent_output, CriticResolutionView)
@@ -159,9 +157,7 @@ def critic_communication_node(state: UnifiedAgentState) -> UnifiedAgentState:
                 f"Error: {str(e)[:200]}"
             ),
         )
-        state["trajectory_log"].append(
-            "critic_communication: runtime failure -> forced ESCALATE"
-        )
+        state["trajectory_log"].append("critic_communication: runtime failure -> forced ESCALATE")
 
     agent_output = {"critic_communication_output": result.model_dump()}
     state = merge_back(state, agent_output, CriticCommunicationView)
@@ -173,8 +169,6 @@ def critic_communication_node(state: UnifiedAgentState) -> UnifiedAgentState:
         )
 
     state["tool_calls_log"].append("AGENT: critic_communication invoked")
-    state["trajectory_log"].append(
-        f"critic_communication: decision={result.decision}"
-    )
+    state["trajectory_log"].append(f"critic_communication: decision={result.decision}")
     state["next_agent"] = "orchestrator"
     return state

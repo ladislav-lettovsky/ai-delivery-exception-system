@@ -11,9 +11,9 @@ class ResolutionOutput(BaseModel):
     is_exception: Literal["YES", "NO"] = Field(
         description="Whether this delivery event is a real actionable exception"
     )
-    resolution: Literal[
-        "RESCHEDULE", "REROUTE_TO_LOCKER", "REPLACE", "RETURN_TO_SENDER", "N/A"
-    ] = Field(description="Resolution action. N/A if is_exception is NO")
+    resolution: Literal["RESCHEDULE", "REROUTE_TO_LOCKER", "REPLACE", "RETURN_TO_SENDER", "N/A"] = (
+        Field(description="Resolution action. N/A if is_exception is NO")
+    )
     rationale: str = Field(
         description="Step-by-step reasoning for the classification and resolution decision"
     )
@@ -34,9 +34,7 @@ class CommunicationOutput(BaseModel):
     tone_label: Literal["FORMAL", "CASUAL"] = Field(
         description="Tone of the customer message, inferred from customer tier"
     )
-    communication_message: str = Field(
-        description="The customer-facing notification message"
-    )
+    communication_message: str = Field(description="The customer-facing notification message")
 
 
 class CriticResolutionOutput(BaseModel):

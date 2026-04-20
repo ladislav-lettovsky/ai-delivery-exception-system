@@ -20,27 +20,17 @@ class Settings:
     """Application settings loaded from environment variables."""
 
     # API Keys
-    openai_api_key: str = field(
-        default_factory=lambda: os.environ.get("OPENAI_API_KEY", "")
-    )
-    openai_base_url: str = field(
-        default_factory=lambda: os.environ.get("OPENAI_BASE_URL", "")
-    )
-    hf_token: str = field(
-        default_factory=lambda: os.environ.get("HF_TOKEN", "")
-    )
+    openai_api_key: str = field(default_factory=lambda: os.environ.get("OPENAI_API_KEY", ""))
+    openai_base_url: str = field(default_factory=lambda: os.environ.get("OPENAI_BASE_URL", ""))
+    hf_token: str = field(default_factory=lambda: os.environ.get("HF_TOKEN", ""))
 
     # LangSmith
     langchain_tracing_v2: str = field(
         default_factory=lambda: os.environ.get("LANGCHAIN_TRACING_V2", "false")
     )
-    langchain_api_key: str = field(
-        default_factory=lambda: os.environ.get("LANGCHAIN_API_KEY", "")
-    )
+    langchain_api_key: str = field(default_factory=lambda: os.environ.get("LANGCHAIN_API_KEY", ""))
     langchain_project: str = field(
-        default_factory=lambda: os.environ.get(
-            "LANGCHAIN_PROJECT", "delivery-exception-system"
-        )
+        default_factory=lambda: os.environ.get("LANGCHAIN_PROJECT", "delivery-exception-system")
     )
 
     # Models
@@ -56,9 +46,7 @@ class Settings:
     retrieve_chunks_num: int = 6
 
     # Paths
-    data_dir: Path = field(
-        default_factory=lambda: Path(os.environ.get("DATA_DIR", "data"))
-    )
+    data_dir: Path = field(default_factory=lambda: Path(os.environ.get("DATA_DIR", "data")))
 
     @property
     def customers_db_path(self) -> Path:
@@ -85,9 +73,7 @@ class Settings:
     max_retries: int = 2
 
     # Logging
-    log_level: str = field(
-        default_factory=lambda: os.environ.get("LOG_LEVEL", "WARNING")
-    )
+    log_level: str = field(default_factory=lambda: os.environ.get("LOG_LEVEL", "WARNING"))
 
     # Output
     results_dir: Path = field(

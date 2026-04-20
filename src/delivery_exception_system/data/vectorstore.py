@@ -84,9 +84,7 @@ def get_retriever():
                 embedding_function=embedding_model,
                 persist_directory=persist_dir,
             )
-            _retriever = vectorstore.as_retriever(
-                search_kwargs={"k": settings.retrieve_chunks_num}
-            )
+            _retriever = vectorstore.as_retriever(search_kwargs={"k": settings.retrieve_chunks_num})
             return _retriever
 
     # Build fresh vector store
@@ -115,7 +113,5 @@ def get_retriever():
     settings.vectorstore_dir.mkdir(parents=True, exist_ok=True)
     hash_file.write_text(current_hash)
 
-    _retriever = vectorstore.as_retriever(
-        search_kwargs={"k": settings.retrieve_chunks_num}
-    )
+    _retriever = vectorstore.as_retriever(search_kwargs={"k": settings.retrieve_chunks_num})
     return _retriever

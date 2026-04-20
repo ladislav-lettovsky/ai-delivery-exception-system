@@ -52,15 +52,24 @@ class TestInjectionDetection:
 
 class TestNoiseOverride:
     def test_delivered_no_anomaly(self):
-        consolidated = {"status_code": "DELIVERED", "status_description": "Package delivered to front desk"}
+        consolidated = {
+            "status_code": "DELIVERED",
+            "status_description": "Package delivered to front desk",
+        }
         assert check_noise_override(consolidated)
 
     def test_in_transit_no_anomaly(self):
-        consolidated = {"status_code": "IN_TRANSIT", "status_description": "Package scanned at facility"}
+        consolidated = {
+            "status_code": "IN_TRANSIT",
+            "status_description": "Package scanned at facility",
+        }
         assert check_noise_override(consolidated)
 
     def test_delivered_with_damage(self):
-        consolidated = {"status_code": "DELIVERED", "status_description": "Package delivered but damage noted"}
+        consolidated = {
+            "status_code": "DELIVERED",
+            "status_description": "Package delivered but damage noted",
+        }
         assert not check_noise_override(consolidated)
 
     def test_non_routine_code(self):

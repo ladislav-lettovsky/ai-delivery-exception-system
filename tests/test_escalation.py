@@ -5,7 +5,9 @@ from delivery_exception_system.tools.escalation_rules import should_escalate
 
 class TestAutomaticEscalation:
     def test_third_attempt(self):
-        result = should_escalate("STANDARD", 0, 3, "STANDARD", "ATTEMPTED_DELIVERY", "3rd attempt failed")
+        result = should_escalate(
+            "STANDARD", 0, 3, "STANDARD", "ATTEMPTED_DELIVERY", "3rd attempt failed"
+        )
         assert result["has_triggers"]
         assert any("3rd failed" in t for t in result["triggers"])
 
@@ -20,23 +22,31 @@ class TestAutomaticEscalation:
         assert any("Damaged perishable" in t for t in result["triggers"])
 
     def test_weather_delay_perishable_over_4hr(self):
-        result = should_escalate("STANDARD", 0, 1, "PERISHABLE", "WEATHER_DELAY", "Delay of 5hr due to storm")
+        result = should_escalate(
+            "STANDARD", 0, 1, "PERISHABLE", "WEATHER_DELAY", "Delay of 5hr due to storm"
+        )
         assert result["has_triggers"]
         assert any("5.0hr delay" in t for t in result["triggers"])
 
     def test_weather_delay_perishable_under_4hr(self):
-        result = should_escalate("STANDARD", 0, 1, "PERISHABLE", "WEATHER_DELAY", "Delay of 3hr due to storm")
+        result = should_escalate(
+            "STANDARD", 0, 1, "PERISHABLE", "WEATHER_DELAY", "Delay of 3hr due to storm"
+        )
         assert not result["has_triggers"]
 
     def test_fraud_address(self):
-        result = should_escalate("STANDARD", 0, 1, "STANDARD", "ADDRESS_ISSUE", "Address appears vacant")
+        result = should_escalate(
+            "STANDARD", 0, 1, "STANDARD", "ADDRESS_ISSUE", "Address appears vacant"
+        )
         assert result["has_triggers"]
         assert any("fraud" in t.lower() for t in result["triggers"])
 
 
 class TestDiscretionaryEscalation:
     def test_standard_high_exceptions(self):
-        result = should_escalate("STANDARD", 6, 1, "STANDARD", "ATTEMPTED_DELIVERY", "First attempt")
+        result = should_escalate(
+            "STANDARD", 6, 1, "STANDARD", "ATTEMPTED_DELIVERY", "First attempt"
+        )
         assert result["has_triggers"]
         assert any("DISCRETIONARY" in t for t in result["triggers"])
 
@@ -48,7 +58,9 @@ class TestDiscretionaryEscalation:
 
 class TestNoEscalation:
     def test_routine_first_attempt(self):
-        result = should_escalate("STANDARD", 0, 1, "STANDARD", "ATTEMPTED_DELIVERY", "Customer not home")
+        result = should_escalate(
+            "STANDARD", 0, 1, "STANDARD", "ATTEMPTED_DELIVERY", "Customer not home"
+        )
         assert not result["has_triggers"]
         assert result["trigger_count"] == 0
 

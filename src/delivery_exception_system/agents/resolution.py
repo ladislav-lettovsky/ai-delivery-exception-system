@@ -40,9 +40,7 @@ If no `critic_feedback` is provided, proceed with initial resolution."""
 
 def format_playbook_context(playbook: list[dict]) -> str:
     """Format playbook chunks with page references for LLM context."""
-    return "\n\n---\n\n".join(
-        [f"[Page {c['page']}] {c['content']}" for c in playbook]
-    )
+    return "\n\n---\n\n".join([f"[Page {c['page']}] {c['content']}" for c in playbook])
 
 
 @traceable(name="resolution_agent_node")
@@ -59,9 +57,7 @@ def resolution_agent_node(state: UnifiedAgentState) -> UnifiedAgentState:
             f"Revise your decision based on this feedback."
         )
 
-    system_prompt = RESOLUTION_AGENT_SYSTEM_PROMPT.format(
-        critic_feedback=feedback_section
-    )
+    system_prompt = RESOLUTION_AGENT_SYSTEM_PROMPT.format(critic_feedback=feedback_section)
 
     playbook_text = format_playbook_context(view["playbook_context"])
 

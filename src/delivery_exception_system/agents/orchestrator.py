@@ -92,9 +92,7 @@ def orchestrator_node(state: UnifiedAgentState) -> UnifiedAgentState:
         max_loops = view.get("max_loops", 2)
         if revision_count < max_loops:
             state["resolution_revision_count"] = revision_count + 1
-            state["critic_feedback"] = view["critic_resolution_output"].get(
-                "rationale", ""
-            )
+            state["critic_feedback"] = view["critic_resolution_output"].get("rationale", "")
             state["resolution_output"] = {}
             state["critic_resolution_output"] = {}
             state["next_agent"] = "resolution_agent"
@@ -106,9 +104,7 @@ def orchestrator_node(state: UnifiedAgentState) -> UnifiedAgentState:
             return state
         else:
             state["escalated"] = True
-            state["escalation_reason"] = (
-                f"Max revision loops ({max_loops}) exceeded without ACCEPT"
-            )
+            state["escalation_reason"] = f"Max revision loops ({max_loops}) exceeded without ACCEPT"
             state["trajectory_log"].append(
                 f"orchestrator: Max revision loops ({max_loops}) reached, forcing escalation"
             )
@@ -116,7 +112,9 @@ def orchestrator_node(state: UnifiedAgentState) -> UnifiedAgentState:
     # 4. Critic escalation — preserve escalation signal, still notify customer if needed
     if critic_decision == "ESCALATE":
         state["escalated"] = True
-        state["escalation_reason"] = state.get("escalation_reason") or "Resolution Critic Escalation"
+        state["escalation_reason"] = (
+            state.get("escalation_reason") or "Resolution Critic Escalation"
+        )
         if view["resolution_output"].get("is_exception") == "YES":
             state["next_agent"] = (
                 "communication_agent"
@@ -129,17 +127,13 @@ def orchestrator_node(state: UnifiedAgentState) -> UnifiedAgentState:
             )
         else:
             state["next_agent"] = "finalize"
-        state["trajectory_log"].append(
-            "orchestrator: Critic requested supervisor escalation"
-        )
+        state["trajectory_log"].append("orchestrator: Critic requested supervisor escalation")
         return state
 
     # 5. Enforce automatic escalation triggers — rule engine is authoritative
     if view.get("escalation_signals", {}).get("has_triggers"):
         automatic = [
-            t
-            for t in view["escalation_signals"].get("triggers", [])
-            if t.startswith("AUTOMATIC")
+            t for t in view["escalation_signals"].get("triggers", []) if t.startswith("AUTOMATIC")
         ]
         if automatic:
             if view["resolution_output"].get("is_exception") == "NO":
@@ -165,9 +159,7 @@ def orchestrator_node(state: UnifiedAgentState) -> UnifiedAgentState:
     # 6. Not an exception — no customer message needed
     if view["resolution_output"].get("is_exception") == "NO":
         state["next_agent"] = "finalize"
-        state["trajectory_log"].append(
-            "orchestrator: Not an exception, skipping to finalize"
-        )
+        state["trajectory_log"].append("orchestrator: Not an exception, skipping to finalize")
         return state
 
     # 7. Communication Agent hasn't run yet

@@ -3,9 +3,22 @@
 ROUTINE_CODES = {"DELIVERED", "IN_TRANSIT", "OUT_FOR_DELIVERY", "SCANNED"}
 
 ANOMALY_INDICATORS = [
-    "damage", "wrong", "suspicious", "overdue", "missing",
-    "unexpected", "misroute", "lost", "stolen", "abandoned",
-    "leak", "crush", "broke", "delay", "late", "fraud",
+    "damage",
+    "wrong",
+    "suspicious",
+    "overdue",
+    "missing",
+    "unexpected",
+    "misroute",
+    "lost",
+    "stolen",
+    "abandoned",
+    "leak",
+    "crush",
+    "broke",
+    "delay",
+    "late",
+    "fraud",
 ]
 
 

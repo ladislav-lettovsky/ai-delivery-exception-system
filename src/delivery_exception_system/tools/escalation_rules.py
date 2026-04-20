@@ -43,9 +43,7 @@ def should_escalate(
         if hour_matches:
             hours = float(hour_matches[0])
             if hours > 4:
-                triggers.append(
-                    f"AUTOMATIC: Perishable with {hours}hr delay (>4hr threshold)"
-                )
+                triggers.append(f"AUTOMATIC: Perishable with {hours}hr delay (>4hr threshold)")
 
     fraud_keywords = ["vacant", "demolished", "construction site", "empty lot"]
     if status_code == "ADDRESS_ISSUE" and any(
@@ -65,9 +63,7 @@ def should_escalate(
         and package_type == "PERISHABLE"
         and status_code == "WEATHER_DELAY"
     ):
-        triggers.append(
-            "DISCRETIONARY: Premium customer with perishable in weather delay"
-        )
+        triggers.append("DISCRETIONARY: Premium customer with perishable in weather delay")
 
     return {
         "has_triggers": len(triggers) > 0,
