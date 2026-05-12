@@ -5,12 +5,15 @@ description: How to write new Cursor rules for this repo. Load this rule when cr
 # Writing Cursor rules for this repo
 
 ## When to write a new rule
+
 Write a rule when you discover a convention that is:
+
 - Non-obvious from reading the code alone
 - An architectural invariant that a linter cannot catch
 - A pattern you'd want to enforce across future contributors (human or AI)
 
 Do **not** write a rule for:
+
 - Style rules (ruff handles these — line length, quotes, import order)
 - Type rules (ty handles these)
 - One-off decisions that apply to a single file
@@ -33,6 +36,7 @@ the rule, not just *what* it is. Good: "LangGraph agent and graph conventions
 for this repo". Bad: "LangGraph rules".
 
 ## Be descriptive before prescriptive
+
 Before writing a rule, read 2-3 representative files in the target domain.
 Codify patterns that *already exist and work well*; don't invent conventions
 the codebase doesn't follow. A rule that contradicts the code is worse than
@@ -42,7 +46,9 @@ If existing code is inconsistent, the rule is an opportunity to pick one
 pattern and standardize. State explicitly which pattern was chosen and why.
 
 ## Signal density
+
 Rules have a token cost every time they attach. Optimize for:
+
 - **Non-obvious invariants** > restating what code shows
 - **Concrete snippets** > abstract descriptions (short code blocks help)
 - **Named file/function references** (`agents/orchestrator.py::route_from_orchestrator`) > generic pointers
@@ -50,12 +56,14 @@ Rules have a token cost every time they attach. Optimize for:
 If a section could be inferred from reading one file, cut it.
 
 ## Structure
+
 - Start with an H1 matching the rule's topic
 - Use H2 sections; keep each under ~15 lines where possible
 - End with a `## See also` section linking related rules and docs via `@` references (e.g., `@AGENTS.md`)
 - Keep total length under ~60 lines; split into separate rules if longer
 
 ## Authoring workflow
+
 1. Explore the target domain — read representative files first
 2. Draft content in a scratch buffer or chat, not directly in Cursor's rule editor
 3. Write via terminal heredoc or editor, not Cursor's "+ New" GUI
@@ -66,6 +74,7 @@ If a section could be inferred from reading one file, cut it.
 5. Commit with `chore: add .cursor/rules/<name>.mdc`
 
 ## Smoke testing
+
 Design test questions so a good answer is only possible *with* the rule.
 Easy questions (answerable from code alone) don't prove rule activation.
 Hard questions (requiring the rule's prescriptive guidance) do.
@@ -74,4 +83,5 @@ Check the Cursor Agent's exploration trail for `Read <rule>.mdc` — that's
 the definitive signal the rule was fetched and used.
 
 ## See also
+
 @AGENTS.md
