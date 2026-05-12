@@ -23,7 +23,7 @@ cp .env.example .env
 This project uses the [src layout](https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/) — all production code lives under `src/delivery_exception_system/`.
 
 | Directory | Purpose |
-|:---|:---|
+| --- | --- |
 | `src/delivery_exception_system/models/` | State definitions, Pydantic schemas |
 | `src/delivery_exception_system/tools/` | LangChain @tool functions |
 | `src/delivery_exception_system/guardrails/` | Security: injection detection, noise filtering |
@@ -36,7 +36,7 @@ This project uses the [src layout](https://packaging.python.org/en/latest/discus
 ## Branch Conventions
 
 | Branch | Purpose |
-|:---|:---|
+| --- | --- |
 | `main` | Production-ready code. All CI must pass before merging. |
 | `feature/<name>` | New features (e.g., `feature/adjacent-zip-lockers`) |
 | `fix/<name>` | Bug fixes (e.g., `fix/escalation-threshold`) |
@@ -60,7 +60,7 @@ uv run pytest tests/ --cov=delivery_exception_system --ignore=tests/test_graph.p
 The test suite is organized by component:
 
 | Test File | Tests | What It Covers |
-|:---|:---|:---|
+| --- | --- | --- |
 | `test_guardrails.py` | 15 | Injection detection, noise override |
 | `test_escalation.py` | 10 | All escalation rule branches |
 | `test_state.py` | 7 | PII view projection, state merge |
@@ -81,6 +81,7 @@ The test suite is organized by component:
 ## CI
 
 GitHub Actions runs on every push to `main` and on pull requests. The workflow:
+
 1. Installs dependencies with `uv`
 2. Runs all deterministic tests (no API keys required)
 3. Tests run against Python 3.12

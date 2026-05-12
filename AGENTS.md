@@ -1,11 +1,13 @@
 # ai-delivery-exception-system — AI Agent Memory
 
 ## What this is
+
 An AI-powered multi-agent system (LangGraph) that automates last-mile delivery
 exception handling — triage, resolution, and customer communication — with
 deterministic guardrails and RAG-grounded playbook retrieval.
 
 ## Stack
+
 - Python 3.12+, `uv` for dependency management, `just` as the task runner
 - LangGraph (multi-agent orchestration), LangChain, LangSmith
 - OpenAI GPT-4o / GPT-4o-mini (generation + critic)
@@ -15,6 +17,7 @@ deterministic guardrails and RAG-grounded playbook retrieval.
 - Linting: ruff; Type checking: `ty` (Astral); Pre-commit hooks enabled
 
 ## Commands you can run without asking
+
 - `just fmt` — format code
 - `just lint` — ruff check
 - `just lint-fix` — ruff check with --fix
@@ -26,10 +29,12 @@ deterministic guardrails and RAG-grounded playbook retrieval.
 - Read-only git: `git status`, `git diff`, `git log`, `git branch`
 
 ## Commands with preconditions
+
 - `git commit` is allowed on a non-`main` branch **only after `just check`
   passes with no errors**. On `main`, always ask first.
 
 ## Commands that need explicit approval
+
 - `uv add`, `uv remove` (dependency changes)
 - `git push`, `git reset --hard`
 - `gh pr create`, `gh pr merge`
@@ -58,6 +63,7 @@ deterministic guardrails and RAG-grounded playbook retrieval.
    the only exception (they format terminal output).
 
 ## Where things live
+
 - `src/delivery_exception_system/` — production package (src layout)
   - `models/` — `state.py` (UnifiedAgentState + 5 View dataclasses), `schemas.py` (Pydantic output schemas)
   - `tools/` — LangChain `@tool` functions (delivery logs, customer profile, locker, playbook search, escalation rules)
@@ -74,6 +80,7 @@ deterministic guardrails and RAG-grounded playbook retrieval.
 - `results/` — JSON output per run (git-ignored)
 
 ## LangGraph conventions for this repo
+
 - State is `UnifiedAgentState` in `models/state.py`. Agents never receive raw
   state; they receive one of the five view dataclasses.
 - Graph definition lives in `graph.py`. Subgraphs, not inline mega-nodes.
@@ -82,6 +89,7 @@ deterministic guardrails and RAG-grounded playbook retrieval.
   contextvars when applicable.
 
 ## Testing conventions
+
 - Deterministic tests (no API) are the default. Run with
   `uv run pytest tests/ -v --ignore=tests/test_graph.py` or `just test`.
 - LLM-integration tests live in `test_graph.py` and are marked `integration`.
@@ -90,6 +98,7 @@ deterministic guardrails and RAG-grounded playbook retrieval.
   `test_<component>.py` file. See CONTRIBUTING.md for the full test matrix.
 
 ## Ephemeral / scratch work
+
 Use `.scratch/` at the repo root for any exploratory, diagnostic, or
 throwaway work — quick Python snippets, draft queries, debug logs, or
 scratch notes. The directory is git-ignored, so nothing here is ever
@@ -101,11 +110,13 @@ committed.
 - Clean up periodically (nothing persists beyond your working session)
 
 Examples of good `.scratch/` use:
+
 - `.scratch/try_new_prompt.py` — testing an agent prompt variation
 - `.scratch/debug_chroma.py` — poking at the vector store interactively
 - `.scratch/sql_exploration.md` — draft SQL before moving to `tools/`
 
 ## Before saying "done"
+
 1. `just check` passes (ruff + ty + pytest, no integration tests)
 2. Any new public function has a test and a type-annotated signature
 3. No new `print()` calls; logging used throughout (reporting/ excepted)
