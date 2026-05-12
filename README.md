@@ -14,6 +14,7 @@ Built as part of the **Agentic AI Postgraduate Program at UT Austin / Great Lear
 In last-mile logistics, roughly 10% of all shipments encounter delivery exceptions — failed attempts, address mismatches, damaged packages, refused deliveries, and weather delays. Most organizations still handle exception triage and resolution manually: operations staff read through status logs and driver notes, cross-reference customer profiles and internal playbooks, decide on a resolution, and draft customer notifications — all under time pressure.
 
 This manual process leads to:
+
 - Slow exception resolution constrained by manual triage throughput
 - Missed or unnecessary supervisor escalations
 - Inconsistent customer communication quality
@@ -25,7 +26,7 @@ This manual process leads to:
 **LangGraph-orchestrated multi-agent system** with five specialized agents, each with distinct responsibilities and guardrails:
 
 | Agent | Role |
-|:---|:---|
+| --- | --- |
 | **Preprocessor** | Ingests raw delivery logs, deduplicates events, performs input guardrailing against prompt injection, fetches context (customer profiles, locker availability, playbook rules), and filters routine operational noise |
 | **Orchestrator** | Central traffic controller — deterministically manages workflow routing, revision loops, hard escalation rules, and guardrail enforcement |
 | **Resolution Agent** | Classifies whether an event is an actionable exception or noise, then proposes the appropriate resolution (reschedule, reroute to locker, replace, or return to sender) based on playbook rules and customer context |
@@ -34,7 +35,7 @@ This manual process leads to:
 
 ### Architecture
 
-```
+```text
 Delivery Logs ──► Preprocessor ──► Orchestrator ──► Resolution Agent ──► Critic (Resolution)
                                        │                                      │
                                        │              ◄── REVISE (up to 2x) ──┘
@@ -53,7 +54,7 @@ Delivery Logs ──► Preprocessor ──► Orchestrator ──► Resolution
 
 ## Project Structure
 
-```
+```text
 ai-delivery-exception-system/
 ├── src/
 │   └── delivery_exception_system/         # Production Python package (src layout)
@@ -125,7 +126,7 @@ ai-delivery-exception-system/
 ## Data
 
 | Dataset | Format | Description |
-|:---|:---|:---|
+| --- | --- | --- |
 | `customers.db` | SQLite | 12 customer records with tier, preferred channel, exception history, active credits |
 | `delivery_logs.csv` | CSV | 13 rows across 10 unique shipments with status codes, driver notes, package attributes |
 | `ground_truth.csv` | CSV | Hand-labeled expected resolution, tone, escalation, and step-by-step reasoning for each shipment |
@@ -136,7 +137,7 @@ ai-delivery-exception-system/
 Evaluated across 11 curated test cases covering noise filtering, VIP escalation, locker constraints, perishable handling, damaged packages, prompt injection, and discretionary escalation:
 
 | Metric | Score |
-|:---|:---|
+| --- | --- |
 | Task Completion Rate | 100% (11/11) |
 | Escalation Accuracy | 100% |
 | Tool Call Accuracy | 100% |
@@ -210,7 +211,7 @@ uv run python -m delivery_exception_system --langsmith-dashboard
 The system separates three output streams:
 
 | Stream | Default | Flag |
-|:---|:---|:---|
+| --- | --- | --- |
 | Compact summary table | Always printed | — |
 | Structured JSON results | `results/run_<timestamp>.json` | `--json-output PATH` or `--no-json` |
 | Detailed terminal report | Off | `--report` |
@@ -236,10 +237,12 @@ uv run pytest tests/test_graph.py --run-integration
 ## License & Acknowledgments
 
 ### Source code
+
 The source code in this repository is released under the [MIT License](LICENSE).
 Copyright (c) 2026 Ladislav Lettovsky.
 
-### Data
+### Datasets
+
 The files under `data/` — `customers.db`, `delivery_logs.csv`,
 `exception_resolution_playbook.pdf`, and `ground_truth.csv` — are course
 materials provided by the **University of Texas at Austin Post-Graduate
@@ -249,6 +252,7 @@ original course-provided terms. They are **not** redistributed under the
 MIT License and are **not** covered by the copyright notice above.
 
 ### Built with
+
 - [LangGraph](https://github.com/langchain-ai/langgraph) — agent orchestration
 - [LangChain](https://github.com/langchain-ai/langchain) — LLM integrations, text splitting, document loaders
 - [Chroma](https://github.com/chroma-core/chroma) — vector database
