@@ -32,6 +32,13 @@ deterministic guardrails and RAG-grounded playbook retrieval.
 
 - `git commit` is allowed on a non-`main` branch **only after `just check`
   passes with no errors**. On `main`, always ask first.
+- After any update to local `main` (PR merge, `git pull`, fast-forward, etc.),
+  immediately `git switch` to a parking branch — by convention `scratch`,
+  forked from the new `main` tip. This keeps the working copy off `main` so
+  no edits or commits land there by accident. Create real work branches
+  (`feat/<name>`, `fix/<name>`, `chore/<name>`, ...) from `main`, not from
+  `scratch`. If `scratch` is missing or stale, recreate it with
+  `git switch -c scratch` from the current `main`.
 
 ## Commands that need explicit approval
 
