@@ -15,6 +15,15 @@ lint:
 lint-fix:
     uv run ruff check --fix .
 
+# Lint Markdown (.md + .mdc). Uses the version pinned in .pre-commit-config.yaml.
+lint-md:
+    uv run pre-commit run markdownlint-cli2 --all-files
+
+# Auto-fix Markdown lint violations. Version inline-pinned to match
+# .pre-commit-config.yaml -- bump both together.
+lint-md-fix:
+    npx --yes markdownlint-cli2@0.22.1 --fix "**/*.md" "**/*.mdc"
+
 type:
     uv run ty check
 
