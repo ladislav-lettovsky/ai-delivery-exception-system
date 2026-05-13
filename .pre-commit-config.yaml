@@ -50,3 +50,14 @@ repos:
         language: system
         pass_filenames: false
         types: [python]
+
+  # ---------- Markdown lint (Node-managed, isolated from uv toolchain) ----------
+  # Same engine and config we run via `just lint-md` and `npx markdownlint-cli2`.
+  # The repo-root `.markdownlint.json` and `.markdownlintignore` are auto-loaded.
+  # `files:` restricts the hook to Markdown + Cursor rule sources so things like
+  # `LICENSE` (no extension) are skipped without needing entries in the ignore.
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.22.1
+    hooks:
+      - id: markdownlint-cli2
+        files: \.(md|mdc)$
