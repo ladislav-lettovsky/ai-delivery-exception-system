@@ -7,16 +7,25 @@
 git clone https://github.com/ladislav-lettovsky/ai-delivery-exception-system.git
 cd ai-delivery-exception-system
 
-# Install with dev dependencies
-uv sync --extra dev
-
-# Install pre-commit hooks (runs ruff, ty, and hygiene checks on every commit)
-just install-hooks
+# One-shot rehydrate: syncs dev deps and installs pre-commit hooks
+just refresh
 
 # Configure environment
 cp .env.example .env
 # Edit .env with your API keys
 ```
+
+`just refresh` is the canonical setup command. Run it after a fresh clone,
+after `git worktree add`, or after pulling a branch that changed `pyproject.toml`
+or `uv.lock`. Under the hood it runs `uv sync --extra dev` and
+`uv run pre-commit install`.
+
+## Per-checkout virtual environments
+
+The `.venv` directory is git-ignored and lives inside each checkout. A new
+`git worktree add` produces a worktree with **no** `.venv` until you run
+`just refresh` there. After a dependency change merges into `main`, run `just refresh`
+again so CI-aligned checks (`just check`) use the updated environment.
 
 ## Project Layout
 

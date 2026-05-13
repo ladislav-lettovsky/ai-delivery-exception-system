@@ -2,6 +2,14 @@
 install-hooks:
     uv run pre-commit install
 
+# Re-hydrate this checkout: sync dev dependencies and (re-)install pre-commit hooks.
+# Run after a fresh clone, after `git worktree add`, or after pulling a branch
+# that changed pyproject.toml / uv.lock. The .venv is per-checkout (git-ignored),
+# so every worktree needs its own sync.
+refresh:
+    uv sync --extra dev
+    uv run pre-commit install
+
 # Run all pre-commit hooks against every file in the repo
 pre-commit:
     uv run pre-commit run --all-files
